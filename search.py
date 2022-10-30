@@ -108,21 +108,26 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    startState = problem.getStartState()
-    fringe = util.PriorityQueue()
-    closedStates = []
+    startState = problem.getStartState() # What is the starting state? 
+    fringe = util.PriorityQueue() # What is fringe? (https://ai.stackexchange.com/questions/5949/what-is-the-fringe-in-the-context-of-search-algorithms)
+    closedStates = [] # Track states that have been visited.
     
-    fringe = util.PriorityQueue()
-    fringe.push((startState, [], 0), 0)
+    fringe = util.PriorityQueue() # We use a priority queue because it allows us to queue based on numbers (from least to greatest) which is good in A* algorithm.
+    fringe.push((startState, [], 0), 0) 
     
-    currentState, actions, formerCost = fringe.pop()
-    closedStates.append(currentState)
+    while not fringe.isEmpty(): # While we have not processed the paths:
+        currentState, actions, formerCost = fringe.pop() # Actions is the action that we should take when traversing an optimal path. It looks like: ['Right', 'Down'].
+        if not currentState in closedStates: # If the current state has never been visited before, lets process it:
+            closedStates.append(currentState)
+            if problem.isGoalState(currentState): # If it's the goal state, we can return the good path to this goal state now. We recorded the actions to get here so just return it back.
+                return actions
+            for (nextState, action, cost) in problem.getSuccessors(currentState): # Grab the parameters from the getSuccessors function call: nextState, action, cost.
+                appendedActions = actions + [action]
+                appendedCost = formerCost + cost
+                heuristicCost = appendedCost + heuristic(nextState, problem) # The heuristic function is pretty much the heuristic table we used when doing A* algorithm by hand.
+                fringe.push((nextState, appendedActions, appendedCost), heuristicCost)
 
-    for (nextState, action, cost) in problem.getSuccessors(currentState):
-        print(heuristic(nextState, problem))
-
-
+    # We take advantage of the priority queue because it will output the element with the least priority number first. In this case, the heuristicCost is used as the priority number.
 
     util.raiseNotDefined()
 
