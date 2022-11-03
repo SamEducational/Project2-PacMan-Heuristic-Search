@@ -1,5 +1,15 @@
 # Project2-PacMan-Heuristic-Search
 
+Names:
+
+Brian Landaverde
+
+Kirsten Ochoa
+
+Amritpaul Sidhu
+
+Sam Truong
+
 ## Google Drive for Collaboration/Documentation
 
 Only people with access can view:
